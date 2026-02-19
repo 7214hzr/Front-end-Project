@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import useStreamingChat from "./hooks/useStreamingChat";
+import ChatWindow from "./components/ChatWindow";
+import ChatInput from "./components/ChatInput";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const {
+    messages,
+    isStreaming,
+    error,
+    sendMessage,
+    cancel
+  } = useStreamingChat();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+    <div style={{
+      width: "600px",
+      margin: "auto",
+      marginTop: "50px",
+      fontFamily: "Arial"
+    }}>
+
+      <h2>Autonomous Frontend Studio</h2>
+
+      <ChatWindow
+        messages={messages}
+        isStreaming={isStreaming}
+      />
+
+      {error && (
+        <div style={{ color: "red" }}>
+          {error}
+        </div>
+      )}
+
+      <ChatInput
+        onSend={sendMessage}
+        onCancel={cancel}
+        isStreaming={isStreaming}
+      />
+
+    </div>
+
+  );
 }
 
-export default App
+export default App;
